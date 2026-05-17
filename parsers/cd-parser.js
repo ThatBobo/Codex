@@ -1,4 +1,4 @@
-// Codex HTML Parser v0.5
+// parsers/cd-parser.js
 // Loads .cd files, finds <link codex>, fetches the .codex file,
 // and parses it using Codex.parseCodexFile()
 
