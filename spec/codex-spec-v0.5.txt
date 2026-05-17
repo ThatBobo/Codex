@@ -1,0 +1,144 @@
+Codex Language Specification
+============================
+
+What is Codex?
+--------------
+Codex is a two-part system:
+
+1. .cd     — an HTML file used to build the authentication page
+2. .codex  — a data file inspired by JSON used to store authentication data
+
+Codex is designed for authentication systems in anywhere.
+It is human-readable, engine-friendly, and easy to work with.
+
+
+File Extensions
+---------------
+
+.cd — HTML Auth Page
+    A standard HTML file that defines the authentication page:
+        - fields
+        - layout
+        - styling (via CSS)
+        - actions (login, signup)
+
+Example (.cd):
+<!cd>
+<cd>
+<head>
+    <title>Login</title>
+    <link codex href=".codex"></link>
+</head>
+<body>
+    <form action="/login" method="post">
+        <label>Username</label>
+        <input name="username" type="text" />
+
+        <label>Password</label>
+        <input name="password" type="password" />
+
+        <button type="submit">Login</button>
+    </form>
+</body>
+</cd>
+
+
+.codex — Codex Data (JSON-style)
+    Stores authentication data:
+        - user accounts
+        - passwords
+        - emails
+        - login attempts
+        - verification state
+        - timestamps
+
+Example (.codex):
+{Bob
+    id: "bob"
+    username: "Bob"
+    email: "bob@example.com"
+    password: "1234"
+    providers: "email"
+    is_verified: false
+    last_login: "2026-01-23T13:42:00Z"
+    login_attempts: 0
+}
+
+
+Codex Data Syntax (.codex)
+--------------------------
+
+Blocks:
+    {Name
+        key: value
+        key: value
+    }
+
+Key–Value Pairs:
+    key: value
+
+Strings:
+    name: "Bob"
+
+Booleans:
+    is_verified: false
+
+Numbers:
+    login_attempts: 0
+
+
+User Block Structure
+--------------------
+
+Each user in a .codex file is stored as:
+
+{<Username>
+    id: "(username but all in lowercase)"
+    username: "(Username)"
+    email: "(Optional)"
+    password: "(Optional but required)"
+    providers: "(If any)"
+    is_verified: (true or false)
+    last_login: "2026-01-23T13:42:00Z"
+    login_attempts: 0
+}
+
+
+Multiple Users Example
+----------------------
+
+{
+    {Bob
+        id: "bob"
+        username: "Bob"
+        password: "1234"
+        providers: "email"
+        is_verified: false
+        last_login: "2026-01-23T13:42:00Z"
+        login_attempts: 0
+    }
+
+    {Alice
+        id: "alice"
+        username: "Alice"
+        password: "abcd"
+        providers: ""
+        is_verified: false
+        last_login: "2026-01-23T13:42:00Z"
+        login_attempts: 0
+    }
+}
+
+
+Rules
+-----
+
+- .cd files are standard HTML files
+- .codex files store data in a JSON‑like block format
+- Block names must be unique
+- Keys must be simple identifiers
+- Strings must use quotes
+- Booleans are lowercase
+- Timestamps should be ISO format
+- Whitespace is ignored
+- Empty .codex files are allowed
